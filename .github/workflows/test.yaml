@@ -18,7 +18,7 @@ jobs:
             - uses: ilammy/msvc-dev-cmd@v1
             - uses: dtolnay/rust-toolchain@nightly
               with:
-                  targets: x86_64-unknown-linux-gnu
+                  targets: x86_64-unknown-linux-musl
             # - run: ./download_and_build_lua.ps1
             #   shell: powershell
             # - run: |
