@@ -16,23 +16,28 @@ jobs:
               with:
                   submodules: recursive
             - uses: ilammy/msvc-dev-cmd@v1
-            - uses: actions-rs/toolchain@v1
+            # - run: ./download_and_build_lua.ps1
+            #   shell: powershell
+            # - run: |
+            #       $Env:LUA_INC="build/lua54/include"
+            #       $Env:LUA_LIB="build/lua54"
+            #       $Env:LUA_LIB_NAME="lua54"
+            #       cargo build --release
+            #   shell: powershell
+            - uses: dtolnay/rust-toolchain@nightly
               with:
-                  toolchain: nightly
-                  target: x86_64-unknown-linux-gnu
-                  override: true
-            - uses: actions-rs/cargo@v1
-              with:
-                  use-cross: true
-                  command: build
-                  args: --release --target x86_64-unknown-linux-gnu --bin install
+                  targets: x86_64-unknown-linux-gnu
+            - run: cargo build --release --target x86_64-unknown-linux-gnu --bin install
+            # - run: Move-Item build/lua54/lua54.dll ./lua54.dll
+            #   shell: powershell
             - run: Move-Item ./target/x86_64-unknown-linux-gnu/release/install install-linux
-              shell: powershell
-            - run: Move-Item build/lua54/lua54.dll ./lua54.dll
               shell: powershell
             - run: |
                     chmod a+x ./install-linux
                     7z a -tzip dist.zip ./target/release/chaudloader.dll ./target/release/dxgi.dll ./target/release/install.exe ./lua54.dll ./README.md ./install-linux build
+            # - run: |
+            #         chmod a+x ./install-linux
+            #         7z a -tzip dist.zip ./target/release/chaudloader.dll ./target/release/dxgi.dll ./target/release/install.exe ./lua54.dll ./README.md ./install-linux build
               shell: bash
             - uses: actions/upload-artifact@v3
               with:
