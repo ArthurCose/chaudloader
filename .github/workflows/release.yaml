@@ -34,7 +34,7 @@ jobs:
               shell: powershell
             - run: |
                   chmod a+x ./install-linux
-                  7z a -tzip dist.zip ./target/release/chaudloader.dll ./target/release/dxgi.dll ./target/release/install.exe ./lua54.dll ./README.md ./install-linux build
+                  tar -caf dist.zip target/release/chaudloader.dll target/release/dxgi.dll target/release/install.exe lua54.dll README.md install-linux build
               shell: bash
             - uses: actions/upload-release-asset@v1
               env:
